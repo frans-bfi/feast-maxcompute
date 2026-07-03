@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "feast-maxcompute"
+version = "0.1.0"
+description = "Alibaba MaxCompute (ODPS) offline store plugin for Feast"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.8"
+
+dependencies = [
+    "feast==0.63.0",
+    "pyodps>=0.11",
+    "pandas>=1.4",
+    "pyarrow>=11",
+    "grpcio==1.80.0",
+    "grpcio-health-checking==1.80.0",
+    "grpcio-reflection==1.80.0",
+    "grpcio-tools==1.80.0",
+    "cryptography==48.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+    "pytest-mock",
+    "mypy",
+    "ruff",
+]
+
+[project.urls]
+Homepage   = "https://github.com/frans-bfi/feast-maxcompute"
+Repository = "https://github.com/frans-bfi/feast-maxcompute.git"
+Issues     = "https://github.com/frans-bfi/feast-maxcompute/issues"
+
+# ── Feast plugin entry-points ──────────────────────────────────────────────
+# Feast discovers data sources and offline stores by scanning these groups.
+[project.entry-points."feast.data_source"]
+maxcompute = "feast_maxcompute.maxcompute_source:MaxComputeSource"
+
+[project.entry-points."feast.offline_store"]
+maxcompute = "feast_maxcompute.maxcompute_offline_store:MaxComputeOfflineStore"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["feast_maxcompute*"]
